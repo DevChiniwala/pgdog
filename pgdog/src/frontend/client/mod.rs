@@ -212,8 +212,7 @@ impl Client {
                 stream.send_flush(&challenge).await?;
 
                 let scram = Server::new(passwords);
-                let res = scram.handle(stream).await;
-                if matches!(res, Ok(true)) {
+                if scram.handle(stream).await? {
                     AuthResult::Ok
                 } else {
                     AuthResult::NoPasswordMatch
